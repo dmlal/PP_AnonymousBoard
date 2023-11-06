@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class BoardRequestDto {
-    private Long index;
+    private Long id;
     private String userName;
     private String title;
     private String content;

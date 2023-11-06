@@ -2,9 +2,8 @@ package com.sparta.anonymousboard.controller;
 
 import com.sparta.anonymousboard.dto.BoardRequestDto;
 import com.sparta.anonymousboard.dto.BoardResponseDto;
-import com.sparta.anonymousboard.entity.Board;
+import com.sparta.anonymousboard.dto.UpdateDeleteRequestDto;
 import com.sparta.anonymousboard.service.BoardService;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,6 +26,8 @@ public class BoardController {
         this.boardService = boardService;
     }
 
+
+    // 게시글 작성
     @PostMapping("/post")
     public ResponseEntity<BoardResponseDto> writeBoard(@RequestBody BoardRequestDto requestDto) {
         HttpHeaders headers= new HttpHeaders();
@@ -34,19 +35,46 @@ public class BoardController {
         return new ResponseEntity<>(boardService.writeBoard(requestDto), makeUTF8Header() ,HttpStatus.OK);
     }
 
-    @GetMapping("/posts")
-    public List<BoardResponseDto> getBoard() {
-        return boardService.getBoard();
+
+    // 게시글 전체 검색
+    @GetMapping("/postlist")
+    public ResponseEntity<List<BoardResponseDto>> getBoard() {
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        return new ResponseEntity<>(boardService.getBoard(), makeUTF8Header() ,HttpStatus.OK);
     }
 
-    @PutMapping("/post/{index}")
-    public Integer updateBoard(@PathVariable Integer index, @RequestBody BoardRequestDto requestDto) {
-        return boardService.updateBoard(index, requestDto);
+    // 특정 인덱스의 게시글 검색
+    @GetMapping("/post/{id}")
+    public ResponseEntity<BoardResponseDto> getBoard(@PathVariable Long id) {
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        return new ResponseEntity<>(boardService.getBoard(id), makeUTF8Header() ,HttpStatus.OK);
     }
 
-    @DeleteMapping("/post/{index}")
-    public Integer deleteBoard(@PathVariable Integer index) {
-        return boardService.deleteBoard(index);
+    // 수정
+//    @PutMapping("/post/{id}")
+//    public ResponseEntity<Long> updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto requestDto) {
+//        HttpHeaders headers= new HttpHeaders();
+//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+//        return new ResponseEntity<>(boardService.updateBoard(id, requestDto), makeUTF8Header() ,HttpStatus.OK);
+//    }
+
+    // 수정  json 활용버전
+    @PutMapping("/post/update")
+    public ResponseEntity<Long> updateBoard(@RequestBody UpdateDeleteRequestDto requestDto) {
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        return new ResponseEntity<>(boardService.updateBoard(requestDto), makeUTF8Header() ,HttpStatus.OK);
+    }
+
+
+    // 삭제  json 활용버전
+    @DeleteMapping("/post/delete")
+    public ResponseEntity<Long> deleteBoard(@RequestBody UpdateDeleteRequestDto requestDto) {
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        return new ResponseEntity<>(boardService.deleteBoard(requestDto), makeUTF8Header() ,HttpStatus.OK);
     }
 
     private HttpHeaders makeUTF8Header() {
@@ -55,5 +83,13 @@ public class BoardController {
 
         return returnResHeaders;
     }
+
+    // 삭제
+//    @DeleteMapping("/post/{id}/{password}")
+//    public ResponseEntity<Long> deleteBoard(@PathVariable Long id, @PathVariable String password) {
+//        HttpHeaders headers= new HttpHeaders();
+//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+//        return new ResponseEntity<>(boardService.deleteBoard(id, password), makeUTF8Header() ,HttpStatus.OK);
+//    }
 
 }
