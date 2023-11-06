@@ -6,9 +6,14 @@ import com.sparta.anonymousboard.entity.Board;
 import com.sparta.anonymousboard.service.BoardService;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 @Controller
@@ -23,9 +28,10 @@ public class BoardController {
     }
 
     @PostMapping("/post")
-    public BoardResponseDto writeBoard(@RequestBody BoardRequestDto requestDto) {
-
-        return boardService.writeBoard(requestDto);
+    public ResponseEntity<BoardResponseDto> writeBoard(@RequestBody BoardRequestDto requestDto) {
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        return new ResponseEntity<>(boardService.writeBoard(requestDto), makeUTF8Header() ,HttpStatus.OK);
     }
 
     @GetMapping("/posts")
@@ -42,4 +48,12 @@ public class BoardController {
     public Integer deleteBoard(@PathVariable Integer index) {
         return boardService.deleteBoard(index);
     }
+
+    private HttpHeaders makeUTF8Header() {
+        HttpHeaders returnResHeaders = new HttpHeaders();
+        returnResHeaders.add("Content-Type", "application/json;charset=UTF-8");
+
+        return returnResHeaders;
+    }
+
 }

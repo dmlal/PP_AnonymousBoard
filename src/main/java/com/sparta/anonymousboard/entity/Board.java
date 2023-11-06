@@ -17,7 +17,7 @@ public class Board extends Timestamped{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer index;
+    private Long index;
 
     private String userName;
     private String title;

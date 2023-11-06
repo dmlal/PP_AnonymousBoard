@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class BoardResponseDto {
-    private Integer index;
+    private Long index;
     private String userName;
     private String title;
     private String content;
