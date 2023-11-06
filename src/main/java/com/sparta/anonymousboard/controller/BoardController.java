@@ -2,7 +2,8 @@ package com.sparta.anonymousboard.controller;
 
 import com.sparta.anonymousboard.dto.BoardRequestDto;
 import com.sparta.anonymousboard.dto.BoardResponseDto;
-import com.sparta.anonymousboard.dto.UpdateDeleteRequestDto;
+import com.sparta.anonymousboard.dto.DeleteRequestDto;
+import com.sparta.anonymousboard.dto.UpdateRequestDto;
 import com.sparta.anonymousboard.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -60,18 +61,19 @@ public class BoardController {
 //        return new ResponseEntity<>(boardService.updateBoard(id, requestDto), makeUTF8Header() ,HttpStatus.OK);
 //    }
 
-    // 수정  json 활용버전
+//     수정  json 활용버전
     @PutMapping("/post/update")
-    public ResponseEntity<Long> updateBoard(@RequestBody UpdateDeleteRequestDto requestDto) {
+    public ResponseEntity<Long> updateBoard(@RequestBody UpdateRequestDto requestDto) {
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
         return new ResponseEntity<>(boardService.updateBoard(requestDto), makeUTF8Header() ,HttpStatus.OK);
     }
 
 
     // 삭제  json 활용버전
     @DeleteMapping("/post/delete")
-    public ResponseEntity<Long> deleteBoard(@RequestBody UpdateDeleteRequestDto requestDto) {
+    public ResponseEntity<Long> deleteBoard(@RequestBody DeleteRequestDto requestDto) {
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         return new ResponseEntity<>(boardService.deleteBoard(requestDto), makeUTF8Header() ,HttpStatus.OK);

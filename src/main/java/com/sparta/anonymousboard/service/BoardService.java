@@ -2,7 +2,8 @@ package com.sparta.anonymousboard.service;
 
 import com.sparta.anonymousboard.dto.BoardRequestDto;
 import com.sparta.anonymousboard.dto.BoardResponseDto;
-import com.sparta.anonymousboard.dto.UpdateDeleteRequestDto;
+import com.sparta.anonymousboard.dto.DeleteRequestDto;
+import com.sparta.anonymousboard.dto.UpdateRequestDto;
 import com.sparta.anonymousboard.entity.Board;
 import com.sparta.anonymousboard.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,19 +42,20 @@ public class BoardService {
 //        return id;
 //    }
 
+
+    // 추가구현기능을 HttpStatus.UNAUTHORIZED 이걸로 구현해봤는데 포스트맨을 잘 모르다 보니 이 코드가 잘되는지 모르겠습니다.
     @Transactional
-    public Long updateBoard(UpdateDeleteRequestDto updateDeleteRequestDto) {
-        if(!checkPassword(updateDeleteRequestDto.getId(), updateDeleteRequestDto.getPassword())){
+    public Long updateBoard(UpdateRequestDto updateRequestDto) {
+        if(!checkPassword(updateRequestDto.getId(), updateRequestDto.getPassword())){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
         }
-        BoardRequestDto requestDto = new BoardRequestDto();
-        Board board = findBoard(updateDeleteRequestDto.getId());
-        board.update(requestDto);
-        return updateDeleteRequestDto.getId();
+        Board board = findBoard(updateRequestDto.getId());
+        board.update(updateRequestDto);
+        return updateRequestDto.getId();
     }
 
 
-    public Long deleteBoard(UpdateDeleteRequestDto updateDeleteRequestDto){
+    public Long deleteBoard(DeleteRequestDto updateDeleteRequestDto){
         if(!checkPassword(updateDeleteRequestDto.getId(), updateDeleteRequestDto.getPassword())){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
         }

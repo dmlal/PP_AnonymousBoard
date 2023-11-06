@@ -7,16 +7,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UpdateDeleteRequestDto {
+public class DeleteRequestDto {
     private Long id;
     private String password;
 
-    public UpdateDeleteRequestDto(Long id, String password) {
+    public DeleteRequestDto(Long id, String password) {
         this.id = id;
         this.password = password;
     }
 
-    public UpdateDeleteRequestDto(BoardRequestDto requestDto) {
+    public DeleteRequestDto(BoardRequestDto requestDto) {
         this.id = requestDto.getId();
         this.password = requestDto.getPassword();
     }

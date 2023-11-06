@@ -1,6 +1,7 @@
 package com.sparta.anonymousboard.entity;
 
 import com.sparta.anonymousboard.dto.BoardRequestDto;
+import com.sparta.anonymousboard.dto.UpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +30,7 @@ public class Board extends Timestamped{
         this.password = requestDto.getPassword();
     }
 
-    public void update(BoardRequestDto requestDto) {
+    public void update(UpdateRequestDto requestDto) {
         this.userName = requestDto.getUserName();
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
